@@ -26,9 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${fraunces.variable} h-screen antialiased overflow-hidden`}
+      className={`${inter.variable} ${fraunces.variable} antialiased`}
     >
-      <body className="h-screen flex flex-col bg-background text-foreground overflow-hidden">
+      <body className="flex flex-col bg-background text-foreground min-h-screen">
         {children}
       </body>
     </html>
