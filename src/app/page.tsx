@@ -5,8 +5,12 @@ import { Logo } from "@/components/Logo";
 
 export default async function LandingPage() {
   const session = await getCurrentProfile();
-  if (session?.profile?.onboarded) {
-    redirect("/app");
+  if (session?.user) {
+    if (session.profile?.onboarded) {
+      redirect("/app");
+    } else {
+      redirect("/onboarding");
+    }
   }
 
   return <LandingPageContent />;
