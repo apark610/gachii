@@ -129,7 +129,7 @@ export async function getSavedRestaurantsWithDetails(userId: string) {
     .from("saved_restaurants")
     .select("restaurants(*)")
     .eq("profile_id", userId);
-  return (data ?? []).map((row) => row.restaurants as Restaurant);
+  return (data ?? []).map((row: any) => row.restaurants as Restaurant).filter(Boolean);
 }
 
 export async function getPlansWithDetails(userId: string) {

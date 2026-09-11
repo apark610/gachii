@@ -30,7 +30,7 @@ export function ProposalCard({
     ? new Date(plan.scheduled_for).toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
-        meridiem: "short",
+        hour12: true,
       })
     : "Time TBD";
 
