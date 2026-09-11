@@ -1,0 +1,6 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Terracotta circle -->
+  <circle cx="70" cy="100" r="60" fill="#c1613f" opacity="0.9"/>
+  <!-- Sage circle -->
+  <circle cx="130" cy="100" r="60" fill="#6b7f5b" opacity="0.9"/>
+</svg>
