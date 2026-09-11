@@ -1,7 +1,19 @@
+import { redirect } from "next/navigation";
+import { getCurrentProfile } from "@/lib/data";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 
-const stats = [
+export default async function LandingPage() {
+  const session = await getCurrentProfile();
+  if (session?.profile?.onboarded) {
+    redirect("/app");
+  }
+
+  return <LandingPageContent />;
+}
+
+function LandingPageContent() {
+  const stats = [
   { value: "74%", label: "felt more socially connected within their first month" },
   { value: "87%", label: "tried a new restaurant within their first two weeks" },
   { value: "70%", label: "felt less lonely just 21 days after downloading" },
@@ -22,7 +34,6 @@ const steps = [
   },
 ];
 
-export default function LandingPage() {
   return (
     <div className="flex-1">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
