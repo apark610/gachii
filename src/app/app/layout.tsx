@@ -14,13 +14,13 @@ export default async function AppLayout({
   if (!session.profile?.onboarded) redirect("/onboarding");
 
   return (
-    <div className="flex flex-1 justify-center bg-background h-full">
-      <div className="flex w-full flex-col border-x border-border bg-background h-full overflow-hidden md:max-w-2xl">
-        <header className="flex items-center justify-between px-5 py-4 flex-shrink-0">
-          <Logo className="text-xl" />
+    <div className="flex flex-1 justify-center bg-background min-h-screen">
+      <div className="flex w-full flex-col border-x border-border bg-background min-h-screen md:max-w-2xl">
+        <header className="flex items-center justify-between px-4 py-3 flex-shrink-0 sm:px-5 sm:py-4">
+          <Logo className="text-lg sm:text-xl" />
           <LogoutButton />
         </header>
-        <main className="flex-1 px-5 pb-6 overflow-y-auto">{children}</main>
+        <main className="flex-1 px-4 pb-20 overflow-y-auto sm:px-5 sm:pb-6">{children}</main>
         <BottomNav />
       </div>
     </div>
