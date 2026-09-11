@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gachi
 
-## Getting Started
+Find your food people — a platonic dining-matchmaking app for Social Foodies.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- Supabase (Postgres + Auth) for accounts, profiles, matches, and plans
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create a free project at [supabase.com](https://supabase.com).
+2. In the Supabase dashboard, open **SQL Editor → New query**, paste the contents of
+   [`supabase/schema.sql`](supabase/schema.sql), and run it. This creates the tables,
+   seeds cuisines + a few sample restaurants, and sets up row-level security.
+3. In **Project Settings → API**, copy the Project URL and `anon` public key.
+4. Copy `.env.local.example` to `.env.local` and fill in those two values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-## Learn More
+5. (Optional, for faster local testing) In **Authentication → Providers → Email**,
+   turn off "Confirm email" so new accounts are active immediately instead of
+   needing an email click.
+6. Install dependencies and run the dev server:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+7. Open [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How matching works
 
-## Deploy on Vercel
+Each person picks the cuisines they love during onboarding. On the Discover tab,
+everyone else is ranked by taste-match % — the overlap between your cuisine picks
+and theirs (shared ÷ union). Tapping **Match** creates a mutual match immediately
+(no swiping/ghosting — Gachi is low-pressure by design). From the Matches tab you
+can lock in a restaurant to plan a meal together.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/page.tsx` — public marketing landing page
+- `src/app/login`, `src/app/signup` — auth
+- `src/app/onboarding` — pick cuisines + basic profile info
+- `src/app/app/*` — the signed-in product (Home, Discover, Matches, Profile)
+- `src/lib/data.ts` — server-side data fetching from Supabase
+- `src/lib/matching.ts` — taste-match scoring
+- `supabase/schema.sql` — database schema, seed data, RLS policies
+
+## Next steps to consider
+
+- Real restaurant data (an API like Google Places/Yelp instead of the seeded list)
+- Photo uploads for profiles (Supabase Storage)
+- In-app messaging once a match is made
+- Stripe integration for the $4.99/mo subscription tier
