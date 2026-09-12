@@ -152,6 +152,25 @@ export async function declinePlan(planId: string) {
   return { error: null };
 }
 
+export async function saveRestaurant(restaurantId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not signed in" };
+
+  const { error } = await supabase.from("saved_restaurants").insert({
+    profile_id: user.id,
+    restaurant_id: restaurantId,
+  });
+
+  revalidatePath("/app/discover");
+  revalidatePath("/app/restaurants");
+
+  if (error) return { error: error.message };
+  return { error: null };
+}
+
 export async function sendMessage(matchId: string, content: string) {
   const supabase = await createClient();
   const {
