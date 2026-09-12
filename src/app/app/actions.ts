@@ -31,6 +31,7 @@ export async function updateProfile(input: {
   displayName: string;
   region: string;
   bio: string;
+  phoneNumber?: string;
   photoUrl?: string;
   cuisines: string[];
 }) {
@@ -46,6 +47,7 @@ export async function updateProfile(input: {
       display_name: input.displayName,
       region: input.region,
       bio: input.bio,
+      phone_number: input.phoneNumber,
       photo_url: input.photoUrl,
     })
     .eq("id", user.id);

@@ -8,6 +8,7 @@ export type Profile = {
   region: string;
   onboarded: boolean;
   photo_url?: string;
+  phone_number?: string;
 };
 
 export type ProfileWithCuisines = Profile & { cuisines: string[] };

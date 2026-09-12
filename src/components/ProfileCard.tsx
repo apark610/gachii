@@ -32,6 +32,7 @@ export function ProfileCard({
           initialBio={profile.bio ?? ""}
           initialCuisines={cuisines}
           initialPhotoUrl={profile.photo_url}
+          initialPhoneNumber={profile.phone_number ?? ""}
         />
       </div>
     );

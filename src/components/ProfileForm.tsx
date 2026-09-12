@@ -12,16 +12,19 @@ export function ProfileForm({
   initialBio,
   initialCuisines,
   initialPhotoUrl,
+  initialPhoneNumber,
 }: {
   initialDisplayName: string;
   initialRegion: string;
   initialBio: string;
   initialCuisines: string[];
   initialPhotoUrl?: string;
+  initialPhoneNumber?: string;
 }) {
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [region, setRegion] = useState(initialRegion);
   const [bio, setBio] = useState(initialBio);
+  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber || "");
   const [photoUrl, setPhotoUrl] = useState(initialPhotoUrl);
   const [selected, setSelected] = useState<string[]>(initialCuisines);
   const [isPending, startTransition] = useTransition();
@@ -42,6 +45,7 @@ export function ProfileForm({
         displayName,
         region,
         bio,
+        phoneNumber,
         photoUrl,
         cuisines: selected,
       });
@@ -79,6 +83,18 @@ export function ProfileForm({
           <option value="Los Angeles">Los Angeles</option>
           <option value="Orange County">Orange County</option>
         </select>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm font-medium text-foreground/80">
+          Phone Number (optional, for SMS notifications)
+        </label>
+        <input
+          type="tel"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          placeholder="+1 (555) 123-4567"
+          className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 outline-none focus:border-primary"
+        />
       </div>
       <div>
         <label className="mb-1 block text-sm font-medium text-foreground/80">
