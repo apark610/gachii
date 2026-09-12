@@ -39,7 +39,7 @@ const steps = [
 ];
 
   return (
-    <div className="flex-1">
+    <div>
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <Logo />
         <nav className="flex items-center gap-3">

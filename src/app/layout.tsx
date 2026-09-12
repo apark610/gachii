@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${fraunces.variable} antialiased`}
     >
-      <body className="flex flex-col bg-background text-foreground min-h-screen">
+      <body className="bg-background text-foreground">
         {children}
       </body>
     </html>
