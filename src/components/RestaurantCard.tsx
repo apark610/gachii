@@ -34,7 +34,7 @@ export function RestaurantCard({
           <p className="text-xs text-muted">{restaurant.neighborhood}</p>
           {restaurant.vibe_tags && restaurant.vibe_tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
-              {restaurant.vibe_tags.map((tag) => (
+              {restaurant.vibe_tags.map((tag: string) => (
                 <span
                   key={tag}
                   className="inline-block rounded-full bg-primary-soft px-2 py-1 text-xs text-primary"

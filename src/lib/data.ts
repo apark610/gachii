@@ -101,12 +101,14 @@ export async function getProfilesByIds(ids: string[]) {
 export type Restaurant = {
   id: string;
   name: string;
-  cuisine_slug: string;
+  cuisine_slug?: string;
   neighborhood: string;
-  region: string;
-  address: string;
-  hours: string;
-  price_range: string;
+  city?: string;
+  vibe_tags?: string[];
+  region?: string;
+  address?: string;
+  hours?: string;
+  price_range?: string;
 };
 
 export async function getAllRestaurants() {
