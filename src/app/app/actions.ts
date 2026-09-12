@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { notifyMessageReceived, notifyPlanProposed } from "@/lib/notifications";
 
 export async function createMatch(otherId: string, score: number) {
   const supabase = await createClient();
@@ -74,6 +75,10 @@ export async function createPlan(
   scheduledTime?: string
 ) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not signed in" };
 
   let scheduledForTimestamp = null;
   if (scheduledFor && scheduledTime) {
@@ -91,6 +96,33 @@ export async function createPlan(
   revalidatePath("/app/profile");
 
   if (error) return { error: error.message };
+
+  // Send notification to other user
+  const { data: match } = await supabase
+    .from("matches")
+    .select("user_a, user_b")
+    .eq("id", matchId)
+    .maybeSingle();
+
+  if (match) {
+    const recipientId = match.user_a === user.id ? match.user_b : match.user_a;
+    const { data: sender } = await supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    const { data: restaurant } = await supabase
+      .from("restaurants")
+      .select("name")
+      .eq("id", restaurantId)
+      .maybeSingle();
+
+    if (sender && restaurant) {
+      await notifyPlanProposed(recipientId, sender.display_name, restaurant.name);
+    }
+  }
+
   return { error: null };
 }
 
@@ -136,5 +168,26 @@ export async function sendMessage(matchId: string, content: string) {
   revalidatePath("/app/matches");
 
   if (error) return { error: error.message };
+
+  // Send notification to other user
+  const { data: match } = await supabase
+    .from("matches")
+    .select("user_a, user_b")
+    .eq("id", matchId)
+    .maybeSingle();
+
+  if (match) {
+    const recipientId = match.user_a === user.id ? match.user_b : match.user_a;
+    const { data: sender } = await supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (sender) {
+      await notifyMessageReceived(recipientId, sender.display_name);
+    }
+  }
+
   return { error: null };
 }
