@@ -15,7 +15,7 @@ export default async function AppLayout({
 
   return (
     <div className="flex flex-1 justify-center bg-background min-h-screen">
-      <div className="flex w-full flex-col border-x border-border bg-background min-h-screen md:max-w-2xl">
+      <div className="flex w-full flex-col bg-background min-h-screen md:max-w-2xl">
         <header className="flex items-center justify-between px-4 py-3 flex-shrink-0 sm:px-5 sm:py-4">
           <Logo className="text-lg sm:text-xl" />
           <LogoutButton />
