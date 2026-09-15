@@ -81,6 +81,18 @@ const steps = [
         </div>
       </section>
 
+      <section className="mx-auto max-w-3xl px-6 pb-20 text-center">
+        <p className="text-5xl text-primary sm:text-6xl" lang="ko">
+          같이
+        </p>
+        <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+          gachi &middot; Korean for <span className="italic normal-case tracking-normal">together</span>
+        </p>
+        <p className="mt-6 font-display text-2xl leading-snug sm:text-3xl">
+          Because the best meals are eaten together.
+        </p>
+      </section>
+
       <section className="border-y border-border bg-surface py-14">
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-6 sm:grid-cols-3">
           {stats.map((stat) => (
