@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { saveRestaurant } from "@/app/app/actions";
+import { RestaurantDetail } from "./RestaurantDetail";
 import type { Restaurant } from "@/lib/data";
 
 export function RestaurantCard({
@@ -15,6 +16,7 @@ export function RestaurantCard({
 }) {
   const [saved, setSaved] = useState(isSaved);
   const [showPeople, setShowPeople] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   async function handleSave() {
@@ -29,8 +31,13 @@ export function RestaurantCard({
   return (
     <div className="rounded-2xl border border-border bg-surface p-4">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <p className="font-medium text-lg">{restaurant.name}</p>
+        <button
+          onClick={() => setShowDetail(true)}
+          className="flex-1 text-left transition hover:opacity-70"
+        >
+          <p className="font-medium text-lg">
+            {restaurant.name} <span className="text-xs text-muted">· map</span>
+          </p>
           <p className="text-xs text-muted">{restaurant.neighborhood}</p>
           {restaurant.vibe_tags && restaurant.vibe_tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
@@ -44,7 +51,7 @@ export function RestaurantCard({
               ))}
             </div>
           )}
-        </div>
+        </button>
         <button
           onClick={handleSave}
           disabled={isPending || saved}
@@ -65,6 +72,13 @@ export function RestaurantCard({
         >
           👥 See who else wants to go
         </button>
+      )}
+
+      {showDetail && (
+        <RestaurantDetail
+          restaurant={restaurant}
+          onClose={() => setShowDetail(false)}
+        />
       )}
     </div>
   );
