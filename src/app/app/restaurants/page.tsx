@@ -1,16 +1,8 @@
 import { getCurrentProfile, getAllRestaurants, getSavedRestaurants } from "@/lib/data";
 import { RestaurantsClient } from "./RestaurantsClient";
+import type { Restaurant } from "@/lib/data";
 
-export type Restaurant = {
-  id: string;
-  name: string;
-  cuisine_slug: string;
-  neighborhood: string;
-  region: string;
-  address: string;
-  hours: string;
-  price_range: string;
-};
+export type { Restaurant };
 
 export default async function RestaurantsPage() {
   const session = await getCurrentProfile();

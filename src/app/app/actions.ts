@@ -171,6 +171,52 @@ export async function saveRestaurant(restaurantId: string) {
   return { error: null };
 }
 
+// Restaurants from live search don't exist in our table yet, but saved_restaurants
+// and plans both reference restaurants.id — so adopt it first, then save.
+export async function saveLiveRestaurant(place: {
+  external_id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not signed in" };
+
+  const { data: adopted, error: adoptError } = await supabase
+    .from("restaurants")
+    .upsert(
+      {
+        external_id: place.external_id,
+        name: place.name,
+        address: place.address,
+        neighborhood: place.address.split(",")[1]?.trim() || "",
+        lat: place.lat,
+        lng: place.lng,
+        source: "google",
+      },
+      { onConflict: "external_id" }
+    )
+    .select("id")
+    .single();
+
+  if (adoptError) return { error: adoptError.message };
+
+  const { error } = await supabase.from("saved_restaurants").insert({
+    profile_id: user.id,
+    restaurant_id: adopted.id,
+  });
+
+  revalidatePath("/app/restaurants");
+  revalidatePath("/app/discover");
+
+  if (error) return { error: error.message };
+  return { error: null };
+}
+
 export async function sendMessage(matchId: string, content: string) {
   const supabase = await createClient();
   const {

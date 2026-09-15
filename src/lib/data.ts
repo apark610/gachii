@@ -101,7 +101,7 @@ export async function getProfilesByIds(ids: string[]) {
 export type Restaurant = {
   id: string;
   name: string;
-  cuisine_slug?: string;
+  cuisine_slug: string;
   neighborhood: string;
   city?: string;
   vibe_tags?: string[];
@@ -109,6 +109,10 @@ export type Restaurant = {
   address?: string;
   hours?: string;
   price_range?: string;
+  lat?: number | null;
+  lng?: number | null;
+  source?: string;
+  external_id?: string | null;
 };
 
 export async function getAllRestaurants() {
