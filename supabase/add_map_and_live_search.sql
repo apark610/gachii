@@ -30,6 +30,12 @@ drop policy if exists "Authenticated users can add restaurants from search" on r
 create policy "Authenticated users can add restaurants from search" on restaurants
   for insert to authenticated with check (source = 'google');
 
+-- Adopting a restaurant uses upsert, which falls through to UPDATE when two
+-- people save the same place. Without this the second save is denied.
+drop policy if exists "Authenticated users can refresh search restaurants" on restaurants;
+create policy "Authenticated users can refresh search restaurants" on restaurants
+  for update to authenticated using (source = 'google') with check (source = 'google');
+
 -- ---------------------------------------------------------------
 -- Coordinates for the curated restaurants, geocoded via OpenStreetMap.
 -- Only points confirmed to sit inside their stated region AND within
