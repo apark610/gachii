@@ -263,12 +263,21 @@ function LiveResultRow({
 }) {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSave() {
     setSaving(true);
-    const res = await saveLiveRestaurant(result);
-    setSaving(false);
-    if (!res.error) setSaved(true);
+    setError(null);
+    try {
+      const res = await saveLiveRestaurant(result);
+      if (res.error) setError(res.error);
+      else setSaved(true);
+    } catch {
+      // A thrown error here is almost always a stale tab after a deploy.
+      setError("Couldn't save — try refreshing the page.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -282,6 +291,7 @@ function LiveResultRow({
             {result.name} <span className="text-xs text-muted">· map</span>
           </h3>
           <p className="mt-1 text-xs text-muted">{result.address}</p>
+          {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
         </button>
         <button
           onClick={handleSave}
