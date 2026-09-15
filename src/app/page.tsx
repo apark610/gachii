@@ -128,10 +128,11 @@ const steps = [
 
       <section className="mx-auto max-w-4xl px-6 pb-24 text-center">
         <blockquote className="font-display text-2xl leading-relaxed sm:text-3xl">
-          &ldquo;Gen Z remains the loneliest generation — 80% report feeling
-          lonely, compared to 45% of Baby Boomers.&rdquo;
+          One in four Americans now eats every meal alone — a 53% rise in
+          twenty years. Sharing meals is as strongly tied to wellbeing as
+          income.
         </blockquote>
-        <p className="mt-4 text-sm text-muted">— GWI, 2024</p>
+        <p className="mt-4 text-sm text-muted">— World Happiness Report, 2025</p>
         <div className="mt-10">
           <Link
             href="/signup"
