@@ -17,6 +17,7 @@ export function MessageThread({
 }) {
   const [input, setInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -31,13 +32,15 @@ export function MessageThread({
     if (!input.trim()) return;
 
     setIsSubmitting(true);
-    const result = await sendMessage(matchId, input);
-    setIsSubmitting(false);
-
-    if (result.error) {
-      alert("Failed to send: " + result.error);
-    } else {
-      setInput("");
+    setError(null);
+    try {
+      const result = await sendMessage(matchId, input);
+      if (result.error) setError(result.error);
+      else setInput("");
+    } catch {
+      setError("Couldn't send — try refreshing the page.");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -72,6 +75,7 @@ export function MessageThread({
       </div>
 
       <div className="border-t border-border p-3">
+        {error && <p className="mb-2 text-xs text-red-600">{error}</p>}
         <div className="flex gap-2">
           <input
             type="text"

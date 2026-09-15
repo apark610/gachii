@@ -152,6 +152,7 @@ export default async function MatchesPage() {
                       </div>
                       <div className="flex gap-2">
                         <MatchChat
+                          matchId={m.id}
                           match={other}
                           messages={messagesByMatch.get(m.id) || []}
                           currentUserId={user.id}

@@ -6,10 +6,12 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import type { Message, Profile } from "@/lib/data";
 
 export function MatchChat({
+  matchId,
   match,
   messages,
   currentUserId,
 }: {
+  matchId: string;
   match: Profile;
   messages: Message[];
   currentUserId: string;
@@ -46,7 +48,7 @@ export function MatchChat({
         <MessageThread
           messages={messages}
           currentUserId={currentUserId}
-          matchId={messages[0]?.match_id || ""}
+          matchId={matchId}
           otherPersonName={match.display_name}
         />
       </div>
